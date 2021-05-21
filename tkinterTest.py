@@ -1,7 +1,10 @@
 from tkinter import *
 
+import random
+
 top = Tk()
 songList = []
+myRolls = []
 rollTimes = 0
 dieType = 0
 
@@ -96,7 +99,7 @@ def week2():
         L5W2 = Label(top, text= "{}".format(myRolls))
         L5W2.grid(column= 0, row = 2)                             
 
-                               
+                                   
         B2W2 = Button(text = "Main Menu", bg= "yellow", command = mainMenu)
         B2W2.grid(column = 0, row = 3)
 
@@ -108,25 +111,93 @@ def week2():
 
     
     L2W2 = Label(top, text= "# of sides")
-    L2W2.grid(column = 0, row = 2)
+    L2W2.grid(column = 1, row = 2)
     
     L3W2 = Label(top, text= "# of rolls")
-    L3W2.grid(column = 0, row = 3)
+    L3W2.grid(column = 3, row = 2)
     
     E1W2 = Entry(top, bd = 5)
-    E1W2.grid(column = 0, row = 3)
+    E1W2.grid(column = 1, row = 3)
 
     
     E2W2 = Entry(top, bd = 5)
     E2W2.grid(column = 3, row = 3)
 
     
-    B1W2 = Button(text= "Roll 'em", bg = "yellow")
+    B1W2 = Button(text= "Roll 'em", bg = "yellow", command = rollDice)
     B1W2.grid(column = 2, row = 4)
 
 
+
+
 def week3():
-    pass
+    import tkinter as Tkinter
+    from datetime import datetime
+    counter = 66600
+    running = False
+    def counter_label(label): 
+        def count(): 
+            if running: 
+                global counter 
+            
+                # To manage the intial delay. 
+                if counter==66600:             
+                    display="Starting..."
+                else:
+                    tt = datetime.fromtimestamp(counter)
+                    string = tt.strftime("%H:%M:%S")
+                    display=string 
+            
+                label['text']=display   # Or label.config(text=display) 
+            
+                # label.after(arg1, arg2) delays by  
+                # first argument given in milliseconds 
+                # and then calls the function given as second argument. 
+                # Generally like here we need to call the  
+                # function in which it is present repeatedly. 
+                # Delays by 1000ms=1 seconds and call count again. 
+                label.after(1000, count)  
+                counter += 1
+            
+        # Triggering the start of the counter. 
+        count()      
+            
+    # start function of the stopwatch 
+    def Start(label): 
+        global running 
+        running=True
+        counter_label(label) 
+        start['state']='disabled'
+        stop['state']='normal'
+        reset['state']='normal'
+            
+    # Stop function of the stopwatch 
+    def Stop(): 
+        global running 
+        start['state']='normal'
+        stop['state']='disabled'
+        reset['state']='normal'
+        running = False
+            
+    # Reset function of the stopwatch 
+    
+            
+    root = Tkinter.Tk() 
+    root.title("Stopwatch") 
+            
+    # Fixing the window size. 
+    root.minsize(width=250, height=70) 
+    label = Tkinter.Label(root, text="Welcome!", fg="black", font="Verdana 30 bold") 
+    label.pack() 
+    f = Tkinter.Frame(root)
+    start = Tkinter.Button(f, text='Start', width=6, command=lambda:Start(label)) 
+    stop = Tkinter.Button(f, text='Stop',width=6,state='disabled', command=Stop) 
+    
+    f.pack(anchor = 'center',pady=5)
+    start.pack(side="left") 
+    stop.pack(side ="left") 
+    reset.pack(side="left") 
+    root.mainloop()
 
 
 
